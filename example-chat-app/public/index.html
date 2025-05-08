@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/salesforce.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>MIAW Chat</title>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="chat-container" x-data="chatApp()" x-cloak>
+      <div class="status" id="status" :class="{ 'error': error }">
+        <div class="status-text" x-text="statusText"></div>
+        <button
+          x-show="!isChatActive"
+          class="start-button"
+          @click="initChat()"
+          :disabled="isConnecting"
+        >
+          Start Chat
+        </button>
+        <button x-show="isChatActive" class="close-button" @click="closeChat()">End Chat</button>
+      </div>
+      <div class="messages" id="messages" x-ref="messages">
+        <template x-for="message in messages" :key="message.id">
+          <div :class="['message', message.type]">
+            <div x-text="message.text" class="message-text"></div>
+            <template x-if="message.attachments && message.attachments.length > 0">
+              <div class="attachments-container">
+                <template x-for="attachment in message.attachments" :key="attachment.name">
+                  <div class="file-chip">
+                    <span class="file-icon" x-text="attachment.icon"></span>
+                    <span class="file-name" x-text="attachment.name"></span>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </div>
+        </template>
+        <div x-show="typingIndicator" x-cloak class="typing-indicator">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+      <div class="input-container">
+        <div class="input-controls">
+          <input
+            type="text"
+            id="messageInput"
+            placeholder="Type your message..."
+            x-model="messageText"
+            @keydown.enter.prevent="sendMessage"
+            :disabled="!isChatActive"
+          />
+          <div class="file-upload-container">
+            <input
+              type="file"
+              id="fileInput"
+              x-ref="fileInput"
+              @change="handleFileSelect"
+              accept=".bmp,.gif,.jpg,.jpeg,.png,.tiff,.pdf,.csv,.doc,.docx,.xml,.xls,.xlsx,image/bmp,image/gif,image/jpeg,image/png,image/tiff,application/pdf,text/csv,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/xml,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              :disabled="!isChatActive"
+            />
+            <label for="fileInput" class="file-upload-button" :class="{ 'disabled': !isChatActive }"
+              >📎</label
+            >
+            <span class="file-error" x-show="fileError" x-cloak x-text="fileError"></span>
+          </div>
+          <button
+            id="sendButton"
+            @click="sendMessage"
+            :disabled="!isChatActive || (!messageText && !selectedFile)"
+          >
+            Send
+          </button>
+        </div>
+        <div x-show="selectedFile" x-cloak class="file-attachment-area">
+          <div class="file-chip selected-file">
+            <span
+              class="file-icon"
+              x-text="selectedFile ? getFileIcon({name: selectedFile.name, mimeType: selectedFile.type}) : ''"
+            ></span>
+            <span class="file-name" x-text="selectedFile ? selectedFile.name : ''"></span>
+            <button class="remove-file" @click="resetFileInput()">&times;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

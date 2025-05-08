@@ -1,0 +1,62 @@
+{
+  "name": "miaw-api-client",
+  "version": "0.9.0",
+  "type": "module",
+  "description": "A client for Salesforce Messaging for In-App and Web APIs",
+  "main": "dist/client.js",
+  "exports": {
+    ".": {
+      "require": "./dist/client.cjs",
+      "import": "./dist/client.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "format": "prettier --write '**/*.{css,html,js,json,md,yaml,yml}'",
+    "format:verify": "prettier --check '**/*.{css,html,js,json,md,yaml,yml}'",
+    "lint": "eslint \"src/**\"",
+    "prepare": "husky || true",
+    "precommit": "lint-staged",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charlesw-salesforce/miaw-api-client.git"
+  },
+  "keywords": [
+    "salesforce",
+    "messaging",
+    "api",
+    "client"
+  ],
+  "author": "charlesw",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/charlesw-salesforce/miaw-api-client/issues"
+  },
+  "homepage": "https://github.com/charlesw-salesforce/miaw-api-client#readme",
+  "dependencies": {
+    "eventsource-client": "^1.1.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.15",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.26.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.5.3",
+    "tsup": "^8.4.0",
+    "typescript": "^5.8.3"
+  },
+  "lint-staged": {
+    "**/*.{css,html,js,json,md,yaml,yml}": [
+      "prettier --write"
+    ],
+    "**/{src,spec}/**/*.js": [
+      "eslint"
+    ]
+  },
+  "files": [
+    "dist/*"
+  ]
+}

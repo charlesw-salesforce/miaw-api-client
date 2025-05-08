@@ -1,0 +1,29 @@
+# Dist files
+dist
+
+.husky
+
+# Log files
+logs
+*.log
+*-debug.log
+*-error.log
+
+# Secret configuration
+.env
+keys
+
+# Tooling files
+node_modules
+jsconfig.json
+.vscode
+.idea
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
