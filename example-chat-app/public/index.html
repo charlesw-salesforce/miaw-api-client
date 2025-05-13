@@ -28,7 +28,9 @@
       <div class="messages" id="messages" x-ref="messages">
         <template x-for="message in messages" :key="message.id">
           <div :class="['message', message.type]">
-            <div x-text="message.text" class="message-text"></div>
+            <div class="message-text">
+              <pre x-text="message.text"></pre>
+            </div>
             <template x-if="message.attachments && message.attachments.length > 0">
               <div class="attachments-container">
                 <template x-for="attachment in message.attachments" :key="attachment.name">
@@ -73,6 +75,7 @@
           </div>
           <button
             id="sendButton"
+            x-ref="sendButton"
             @click="sendMessage"
             :disabled="!isChatActive || (!messageText && !selectedFile)"
           >

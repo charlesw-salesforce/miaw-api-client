@@ -8,6 +8,7 @@ export default [
       ecmaVersion: 13,
       globals: {
         ...globals.node,
+        ...globals.browser,
       },
     },
   },

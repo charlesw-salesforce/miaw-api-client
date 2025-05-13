@@ -52,7 +52,7 @@
   box-sizing: border-box;
   border-width: 0;
   border-style: solid;
-  border-color: #e5e7eb;
+  border-color: var(--color-gray-400);
 }
 
 /* Hide elements until Alpine.js initializes */
@@ -105,12 +105,12 @@ body {
 
 /* Common message styles */
 .message {
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-radius: var(--radius-2xl);
+  padding: var(--spacing-md) var(--spacing-2xl);
+  border-radius: 10px;
   max-width: 70%;
   word-wrap: break-word;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.5;
   font-size: var(--font-size-md);
 }
 
@@ -139,9 +139,8 @@ body {
   text-align: center;
   align-self: center;
   font-size: var(--font-size-md);
-  padding: var(--spacing-md) var(--spacing-2xl);
   border-radius: var(--radius-full);
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-gray-400);
   margin: var(--spacing-sm) 0;
 }
 
@@ -274,39 +273,33 @@ body {
 
 /* Input container styles */
 .input-container {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-lg);
-  background-color: var(--color-gray-100);
-  border: 1px solid var(--color-gray-300);
-  border-radius: 0;
-  margin-top: 0;
-  border-left: none;
-  border-right: none;
-  border-bottom: none;
+  padding: var(--spacing-md);
+  background-color: var(--color-white);
+  border-top: 1px solid var(--color-gray-300);
 }
 
 .input-controls {
   display: flex;
   gap: var(--spacing-sm);
-  width: 100%;
+  align-items: center;
 }
 
 input[type='text'] {
   flex: 1;
-  padding: var(--spacing-md) var(--spacing-lg);
+  padding: var(--spacing-md);
   border: 1px solid var(--color-gray-300);
   border-radius: var(--radius-md);
   font-size: var(--font-size-md);
   outline: none;
-  background-color: var(--color-white);
-  color: var(--color-gray-700);
+  transition: border-color 0.2s ease;
+}
+
+input[type='text']:focus {
+  border-color: var(--color-primary);
 }
 
 input[type='text']:disabled {
-  background-color: var(--color-gray-200);
-  color: var(--color-gray-600);
+  background-color: var(--color-gray-100);
   cursor: not-allowed;
 }
 
@@ -315,15 +308,14 @@ input[type='text']::placeholder {
 }
 
 button#sendButton {
+  padding: var(--spacing-md) var(--spacing-xl);
   background-color: var(--color-primary);
   color: var(--color-white);
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
   font-size: var(--font-size-md);
-  font-weight: 500;
   transition: background-color 0.2s ease;
-  padding: var(--spacing-sm) var(--spacing-2xl);
 }
 
 button#sendButton:hover:not(:disabled) {
@@ -331,37 +323,34 @@ button#sendButton:hover:not(:disabled) {
 }
 
 button#sendButton:disabled {
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-600);
   cursor: not-allowed;
 }
 
 /* File upload styles */
 .file-upload-container {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
+  position: relative;
 }
 
 .file-upload-button {
-  padding: var(--spacing-md) var(--spacing-lg);
-  background-color: transparent;
-  color: var(--color-primary);
-  border: 1px solid var(--color-gray-400);
+  padding: var(--spacing-md);
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-700);
+  border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
   font-size: var(--font-size-md);
-  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
 .file-upload-button:hover:not(:disabled) {
-  background-color: var(--color-gray-100);
+  background-color: var(--color-gray-300);
 }
 
-.file-upload-button:disabled {
+.file-upload-button.disabled {
   background-color: var(--color-gray-200);
   color: var(--color-gray-600);
-  border-color: var(--color-gray-600);
   cursor: not-allowed;
 }
 
@@ -370,113 +359,88 @@ input[type='file'] {
 }
 
 .file-error {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
   color: var(--color-danger);
-  font-size: var(--font-size-sm);
-  margin-top: var(--spacing-xs);
-  display: none;
+  font-size: var(--font-size-xs);
 }
 
 /* File preview and chip styles */
-.file-preview,
+.file-attachment-area {
+  margin-top: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
 .file-chip {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-}
-
-.file-preview {
   padding: var(--spacing-sm) var(--spacing-md);
-  margin: var(--spacing-xs) 0;
-  font-size: var(--font-size-sm);
-  max-width: 220px;
-  min-width: 0;
-}
-
-.file-chip {
-  padding: var(--spacing-xs) var(--spacing-md);
-  max-width: fit-content;
-  margin: var(--spacing-xs) 0;
-}
-
-.message .file-preview {
-  margin: 0;
-  width: 100%;
-  padding: 0;
-}
-
-.message.sent .file-preview,
-.message.sent .file-chip {
-  background-color: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.message.received .file-preview,
-.message.received .file-chip {
   background-color: var(--color-gray-200);
-  border: 1px solid var(--color-gray-300);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
 }
 
-.message.received.bot .file-preview,
-.message.received.bot .file-chip {
-  background-color: rgba(255, 255, 255, 0.25);
-  color: var(--color-white);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+.file-chip.selected-file {
+  background-color: var(--color-primary-light);
 }
 
 .file-chip .file-icon {
-  margin-right: var(--spacing-sm);
   font-size: var(--font-size-md);
 }
 
 .file-chip .file-name {
-  font-size: var(--font-size-sm);
+  max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 10ch;
-}
-
-.message-text {
-  word-wrap: break-word;
-}
-
-.file-chip + .file-chip {
-  margin-top: var(--spacing-xs);
-}
-
-/* Selected file styles */
-.file-chip.selected-file {
-  background-color: var(--color-gray-200);
-  border: 1px solid var(--color-gray-300);
 }
 
 .file-chip .remove-file {
   background: none;
   border: none;
-  color: var(--color-gray-700);
-  font-size: var(--font-size-md);
+  color: var(--color-gray-600);
   cursor: pointer;
   padding: 0 var(--spacing-xs);
-  margin-left: var(--spacing-xs);
+  font-size: var(--font-size-md);
 }
 
 .file-chip .remove-file:hover {
   color: var(--color-danger);
 }
 
+/* Attachments in messages */
 .attachments-container {
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
 }
 
-/* File attachment area */
-.file-attachment-area {
+.message .file-preview {
+  max-width: 100%;
   margin-top: var(--spacing-sm);
-  padding-top: var(--spacing-sm);
-  border-top: 1px dashed var(--color-gray-300);
+}
+
+.message.sent .file-preview,
+.message.sent .file-chip {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+.message.received .file-preview,
+.message.received .file-chip {
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-700);
+}
+
+.message.received.bot .file-preview,
+.message.received.bot .file-chip {
+  background-color: var(--color-secondary);
+  color: var(--color-gray-700);
 }
 
 /* Modal styles */
@@ -570,4 +534,24 @@ input[type='file'] {
 .modal-option.close-option:hover {
   background-color: var(--color-gray-200);
   color: var(--color-gray-700);
+}
+
+.message-text {
+  margin: 0;
+}
+
+.message-text pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: inherit;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+.message.sent .message-text pre {
+  background: none;
 }

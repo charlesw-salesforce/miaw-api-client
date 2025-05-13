@@ -1,4 +1,5 @@
 // This example uses Alpine.js to manage the state and interactivity of the chat app
+// eslint-disable-next-line no-unused-vars
 function chatApp() {
   return {
     // State
@@ -64,6 +65,7 @@ function chatApp() {
       if (!this.canSendMessage || !this.conversationId) return;
 
       try {
+        this.$refs.sendButton.disabled = true;
         const formData = new FormData();
         formData.append('conversationId', this.conversationId);
         if (this.messageText) {
@@ -84,6 +86,8 @@ function chatApp() {
       } catch (error) {
         console.error('Failed to send message:', error);
         this.handleChatError('Failed to send message');
+      } finally {
+        this.$refs.sendButton.disabled = false;
       }
     },
 
